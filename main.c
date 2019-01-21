@@ -22,7 +22,7 @@ char * read_file(char * path){
 
 void init_vertex(){
 
-	triangle = load_polygon("polis/triangulo.txt");
+	triangle = load_polygon(conf->poly_path);
 	
 	glGenBuffers(1, &vbo);
 
@@ -37,13 +37,11 @@ void init_vertex(){
 
 void init_shaders(){
 
-	char * vertex_shader_path = "shaders/shader4.vert";
-	char * fragment_shader_path = "shaders/shader4.frag";
 	char * shader_source;
 	GLint  status;
 
 	printf("compiling vertex shader...");
-	shader_source = read_file(vertex_shader_path);
+	shader_source = read_file(conf->vert_shader_path);
 	vertex_shader = glCreateShader(GL_VERTEX_SHADER);
 	glShaderSource(vertex_shader, 1, (const char * const*)&shader_source, NULL);
 	glCompileShader(vertex_shader);
@@ -56,7 +54,7 @@ void init_shaders(){
 		printf("\tERROR\n");
 
 	printf("compiling fragment shader...");
-	shader_source = read_file(fragment_shader_path);
+	shader_source = read_file(conf->frag_shader_path);
 	fragment_shader = glCreateShader(GL_FRAGMENT_SHADER);
 	glShaderSource(fragment_shader, 1, (const char * const*)&shader_source, NULL);
 	glCompileShader(fragment_shader);
@@ -98,6 +96,8 @@ void init(){
 	start_time = ((float)t.tv_usec)/1000000;
 	printf("start time: %f\n",start_time);
 
+	conf = load_config("config.txt");
+
 	//Init glfw
     glfwInit();
 
@@ -137,6 +137,8 @@ void terminate(){
 	glfwTerminate();
 
 	destroy_polygon(triangle);
+
+	free_config(conf);
 }
 
 void draw(){

@@ -7,15 +7,16 @@
 #include <unistd.h>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-
+#include "config.h"
 #include "polygon.h"
 
 //Globals
 float        start_time;
 float        last_time;
-
+config     * conf;
 polygon    * triangle;
 
+//GL handlers
 GLFWwindow * window;
 GLuint       vertex_shader;
 GLuint       fragment_shader;
@@ -26,6 +27,8 @@ GLint        pos_attr;
 GLint        col_attr;
 GLint        uni_color;
 
+
+//Functions
 char    * read_file(char*);
 void      init_vertex();
 void      init_shaders();

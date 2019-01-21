@@ -9,12 +9,13 @@
 
 #define PI 3.14159265
 
+//Amount of float elements in a vertex
 #define VERTEX_LEN 5
 
 typedef struct polygon{
-	float *vertices;
-	int    vertices_len;
-	int    vertices_count;
+	float *vertices;       //Array with the vertex data
+	int    vertices_len;   //Length of the vertices in bytes
+	int    vertices_count; //Amount of vertices in the polygon
 } polygon;
 
 polygon * load_polygon(char*);
@@ -23,6 +24,5 @@ void      destroy_polygon(polygon*);
 void update_polygon(float,polygon*);
 void move_polygon(float,polygon*);
 void update_color(float,polygon*);
-
 
 #endif

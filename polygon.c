@@ -3,28 +3,26 @@
 polygon * load_polygon(char * path){
 
 	int      i;
-	int		 float_count;
 	FILE    *f = fopen(path,"r");
 	polygon *p = malloc(sizeof(polygon));
 
-	fscanf(f,"%d",&float_count);
+	fscanf(f,"%d",&p->vertices_count);
 
-	p->vertices = malloc(sizeof(float) * float_count);
+	p->vertices_len = sizeof(float) * p->vertices_count * VERTEX_LEN;
 
-	for(i = 0; i < float_count; i++){
+	p->vertices = malloc( p->vertices_len );
+
+	for(i = 0; i < p->vertices_count * VERTEX_LEN; i++){
 		fscanf(f,"%f",p->vertices + i);
-		printf("%f ",p->vertices[i]);
 	}
 
 	fclose(f);
 
-	p->vertices_count = float_count / VERTEX_LEN;
-	p->vertices_len = sizeof(float) * float_count;
-
-	printf("\nfloat count: %d\n",float_count);
-	printf("vertices length: %d\n",p->vertices_len);
-	printf("vertices count: %d\n",p->vertices_count);
-
+	printf("\nPolygon loaded:\n"
+	       "\tvertices length: %d\n"
+	       "\tvertices count: %d\n",
+	       p->vertices_len,p->vertices_count
+	);
 
 	return p;
 }
