@@ -30,6 +30,7 @@ GLint        uni_color;
 
 //Functions
 char    * read_file(char*);
+void      init_gl();
 void      init_vertex();
 void      init_shaders();
 void      init_attributes();

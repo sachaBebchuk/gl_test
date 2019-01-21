@@ -20,6 +20,27 @@ char * read_file(char * path){
 	return result;
 }
 
+void init_gl(){
+
+	//Init glfw
+	glfwInit();
+
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+
+	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+
+	window = glfwCreateWindow(conf->window_w, conf->window_h, "OpenGL", NULL, NULL);
+
+	glfwMakeContextCurrent(window);	
+
+	//Init GLEW
+	glewExperimental = GL_TRUE;
+	glewInit();
+}
+
 void init_vertex(){
 
 	triangle = load_polygon(conf->poly_path);
@@ -98,23 +119,7 @@ void init(){
 
 	conf = load_config("config.txt");
 
-	//Init glfw
-    glfwInit();
-
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-
-	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
-
-	window = glfwCreateWindow(800, 600, "OpenGL", NULL, NULL);
-
-	glfwMakeContextCurrent(window);	
-
-	//Init GLEW
-	glewExperimental = GL_TRUE;
-	glewInit();
+	init_gl();
 
 	init_vertex();
 
