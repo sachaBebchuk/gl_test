@@ -43,13 +43,7 @@ void init_gl(){
 
 void init_vertex(){
 
-	triangle = load_polygon(conf->poly_path);
-	
-	glGenBuffers(1, &vbo);
-
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-
-	glBufferData(GL_ARRAY_BUFFER, triangle->vertices_len, triangle->vertices, GL_STATIC_DRAW);
+	poly = load_polygon(conf->poly_path);
 
 	glGenVertexArrays(1, &vao);
 
@@ -130,18 +124,16 @@ void init(){
 
 void terminate(){
 
+	destroy_polygon(poly);
+
     glDeleteProgram(shader_program);
 	
 	glDeleteShader(fragment_shader);
 	glDeleteShader(vertex_shader);
 
-    glDeleteBuffers(1, &vbo);
-
     glDeleteVertexArrays(1, &vao);    
 
 	glfwTerminate();
-
-	destroy_polygon(triangle);
 
 	free_config(conf);
 }
@@ -152,8 +144,7 @@ void draw(){
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 
-	// Draw a triangle from the 3 vertices
-	glDrawArrays(GL_TRIANGLES, 0, triangle->vertices_count);
+	glDrawArrays(GL_TRIANGLES, 0, poly->vertices_count);
 
 	glfwSwapBuffers(window);
 }
@@ -195,7 +186,7 @@ void update(){
 		return;
 	}
 
-	//update_polygon(dt,triangle);
+	//update_polygon(dt,poly);
 }
 
 int main( int argc, char ** argv){

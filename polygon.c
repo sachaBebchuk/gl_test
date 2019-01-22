@@ -18,7 +18,26 @@ polygon * load_polygon(char * path){
 
 	fclose(f);
 
-	printf("\nPolygon loaded:\n"
+	p->elements_count = 3 * (p->vertices_count-2);
+	p->elements = malloc( sizeof(GLuint) * p->elements_count );
+
+	for(i = 0; i < p->elements_count; i++){
+		
+		if(i%3)
+			p->elements[i] = i%3 + i / 3;
+		else
+			p->elements[i] = 0;
+	}
+
+	glGenBuffers(1, &p->vbo);
+	glBindBuffer(GL_ARRAY_BUFFER, p->vbo);
+	glBufferData(GL_ARRAY_BUFFER, p->vertices_len, p->vertices, GL_STATIC_DRAW);
+
+	glGenBuffers(1, &p->ebo);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, p->ebo);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * p->elements_count, p->elements, GL_STATIC_DRAW);
+
+	printf("Polygon loaded:\n"
 	       "\tvertices length: %d\n"
 	       "\tvertices count: %d\n",
 	       p->vertices_len,p->vertices_count
@@ -27,7 +46,12 @@ polygon * load_polygon(char * path){
 	return p;
 }
 
-void destroy_polygon( polygon * p){
+void destroy_polygon( polygon *p){
+
+    glDeleteBuffers(1, &p->vbo);
+
+    glDeleteBuffers(1, &p->ebo);
+
 	free(p->vertices);
 	free(p);
 }

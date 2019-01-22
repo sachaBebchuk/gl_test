@@ -13,9 +13,13 @@
 #define VERTEX_LEN 5
 
 typedef struct polygon{
-	float *vertices;       //Array with the vertex data
-	int    vertices_len;   //Length of the vertices in bytes
-	int    vertices_count; //Amount of vertices in the polygon
+	float  *vertices;       //Array with the vertex data
+	int     vertices_len;   //Length of the vertices in bytes
+	int     vertices_count; //Amount of vertices in the polygon
+	GLuint  vbo;            //Vertex buffer object
+	GLuint  ebo;            //Element buffer object
+	GLuint *elements;       //Element array
+	int     elements_count; //Count of elements array
 } polygon;
 
 polygon * load_polygon(char*);

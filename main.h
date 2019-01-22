@@ -14,18 +14,17 @@
 float        start_time;
 float        last_time;
 config     * conf;
-polygon    * triangle;
+polygon    * poly;
 
 //GL handlers
 GLFWwindow * window;
 GLuint       vertex_shader;
 GLuint       fragment_shader;
 GLuint       shader_program;
-GLuint       vbo;
 GLuint       vao;
 GLint        pos_attr;
 GLint        col_attr;
-GLint        uni_color;
+//GLint        uni_color;
 
 
 //Functions

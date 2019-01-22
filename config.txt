@@ -1,0 +1,5 @@
+poly=        polis/triangulo.txt
+frag_shader= shaders/shader4.frag
+vert_shader= shaders/shader4.vert
+w_width=     600
+w_height=    800
