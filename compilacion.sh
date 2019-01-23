@@ -3,4 +3,4 @@ LIBS="-lglfw3 -ldl -lX11 -lpthread -lXxf86vm -lXrandr  -lXinerama -lXi -lXcursor
 ONAME="-o gltest"
 CFILES="main.c polygon.c config.c"
 
-gcc $CFILES $LIBSDIRS $LIBS $ONAME
+gcc $CFILES $LIBSDIRS $LIBS $ONAME -g

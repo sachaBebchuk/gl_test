@@ -1,5 +1,5 @@
-poly=        polis/triangulo.txt
-frag_shader= shaders/shader4.frag
-vert_shader= shaders/shader4.vert
-w_width=     600
-w_height=    800
+poly=         polis/pentagono.txt
+frag_shader=  shaders/shader3.frag
+vert_shader=  shaders/shader3.vert
+w_width=   400
+w_height=  400

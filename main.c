@@ -43,11 +43,11 @@ void init_gl(){
 
 void init_vertex(){
 
-	poly = load_polygon(conf->poly_path);
-
 	glGenVertexArrays(1, &vao);
-
 	glBindVertexArray(vao);
+
+	poly = load_polygon(conf->poly_path);
+	
 }
 
 void init_shaders(){
@@ -55,7 +55,7 @@ void init_shaders(){
 	char * shader_source;
 	GLint  status;
 
-	printf("compiling vertex shader...");
+	printf("\ncompiling vertex shader...");
 	shader_source = read_file(conf->vert_shader_path);
 	vertex_shader = glCreateShader(GL_VERTEX_SHADER);
 	glShaderSource(vertex_shader, 1, (const char * const*)&shader_source, NULL);
@@ -109,9 +109,20 @@ void init(){
 	gettimeofday(&t, NULL);
 
 	start_time = ((float)t.tv_usec)/1000000;
-	printf("start time: %f\n",start_time);
 
 	conf = load_config("config.txt");
+	printf(
+		"\nUsing the following configuration:\n"
+		"\twindow size:        %dx%d\n"
+		"\tvertex shader:      %s\n"
+		"\tfragment shader:    %s\n"
+		"\tpolygon:            %s\n",
+		conf->window_w,
+		conf->window_h,
+		conf->vert_shader_path,
+		conf->frag_shader_path,
+		conf->poly_path
+	);
 
 	init_gl();
 
@@ -124,12 +135,11 @@ void init(){
 
 void terminate(){
 
-	destroy_polygon(poly);
-
     glDeleteProgram(shader_program);
-	
 	glDeleteShader(fragment_shader);
 	glDeleteShader(vertex_shader);
+
+	destroy_polygon(poly);
 
     glDeleteVertexArrays(1, &vao);    
 
@@ -144,7 +154,7 @@ void draw(){
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 
-	glDrawArrays(GL_TRIANGLES, 0, poly->vertices_count);
+	draw_polygon(poly);	
 
 	glfwSwapBuffers(window);
 }
@@ -161,7 +171,7 @@ void loop(){
     		glfwSetWindowShouldClose(window, GL_TRUE);
 	    }
 
-    	update();
+    	//update();
 	    
 		draw();
 
@@ -186,7 +196,7 @@ void update(){
 		return;
 	}
 
-	//update_polygon(dt,poly);
+	update_polygon(dt,poly);
 }
 
 int main( int argc, char ** argv){

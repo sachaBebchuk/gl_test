@@ -2,7 +2,7 @@
 
 config* load_config(char * path){
 
-	char   buffer[128];
+	char   *buffer = malloc(CONFIG_BUFFER_SIZE);
 	FILE   *f;
 	config *conf = malloc(sizeof(config));
 
@@ -14,15 +14,16 @@ config* load_config(char * path){
 
 	f = fopen("config.txt","r");
 
-	memset(buffer,0,sizeof(buffer));
+	do{
 
-	while( fgets(buffer,sizeof(buffer),f) ){
+		memset(buffer,0,CONFIG_BUFFER_SIZE);
+
+		if(!fgets(buffer,CONFIG_BUFFER_SIZE,f))
+			break;
 
 		set_config_attr(conf,buffer);
-		memset(buffer,0,sizeof(buffer));
-	}
 
-	fclose(f);
+	}while(1);
 
 	if(!conf->poly_path){
 		conf->poly_path = copy_string(POLY_PATH_DEFAULT);
@@ -34,6 +35,9 @@ config* load_config(char * path){
 		conf->vert_shader_path = copy_string(VERT_SHADER_PATH_DEFAULT);
 	}
 
+	fclose(f);
+	free(buffer);
+
 	return conf;
 }
 
@@ -42,8 +46,8 @@ void set_config_attr(config *conf, char* attr){
 	char *attr_name;
 	char *attr_value;
 
-	attr_name = strtok(attr,"=");
-	attr_value = attr+strlen(attr_name);
+	attr_name = strtok(attr," =\n");
+	attr_value = strtok(NULL," =\n");
 
 	if(!strncmp(attr_name,"poly",4)){
 		conf->poly_path = copy_string(attr_value);

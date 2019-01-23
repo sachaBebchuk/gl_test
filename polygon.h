@@ -24,9 +24,9 @@ typedef struct polygon{
 
 polygon * load_polygon(char*);
 void      destroy_polygon(polygon*);
-
-void update_polygon(float,polygon*);
-void move_polygon(float,polygon*);
-void update_color(float,polygon*);
+void      draw_polygon(polygon*);
+void      update_polygon(float,polygon*);
+void      move_polygon(float,polygon*);
+void      update_color(float,polygon*);
 
 #endif

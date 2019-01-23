@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define CONFIG_BUFFER_SIZE 128
 #define POLY_PATH_DEFAULT "polis/cuadrado.txt"
 #define FRAG_SHADER_PATH_DEFAULT "shaders/shader4.frag"
 #define VERT_SHADER_PATH_DEFAULT "shaders/shader4.vert"

@@ -21,12 +21,17 @@ polygon * load_polygon(char * path){
 	p->elements_count = 3 * (p->vertices_count-2);
 	p->elements = malloc( sizeof(GLuint) * p->elements_count );
 
+	printf("Elements count: %d\n",p->elements_count);
 	for(i = 0; i < p->elements_count; i++){
-		
+
 		if(i%3)
 			p->elements[i] = i%3 + i / 3;
 		else
 			p->elements[i] = 0;
+
+		printf(" %d",p->elements[i]);
+		if(i%3==2)
+			printf("\n");
 	}
 
 	glGenBuffers(1, &p->vbo);
@@ -37,7 +42,7 @@ polygon * load_polygon(char * path){
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, p->ebo);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * p->elements_count, p->elements, GL_STATIC_DRAW);
 
-	printf("Polygon loaded:\n"
+	printf("\nPolygon loaded:\n"
 	       "\tvertices length: %d\n"
 	       "\tvertices count: %d\n",
 	       p->vertices_len,p->vertices_count
@@ -49,11 +54,17 @@ polygon * load_polygon(char * path){
 void destroy_polygon( polygon *p){
 
     glDeleteBuffers(1, &p->vbo);
-
     glDeleteBuffers(1, &p->ebo);
 
 	free(p->vertices);
 	free(p);
+}
+
+void draw_polygon( polygon *p){
+
+	//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+	//glDrawArrays(GL_TRIANGLES, 0, p->vertices_count);
+	glDrawElements(GL_TRIANGLES, p->elements_count, GL_UNSIGNED_INT, 0);
 }
 
 void update_polygon(float dt,polygon *p){
